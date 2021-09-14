@@ -29,11 +29,11 @@ def enc(rec_id,vid_id):
     enc_add_result = enc_api.json()
     if'encodeId' in enc_add_result:
         print("Success! :",enc_add_result)
-        print("Success! :",enc_add_result,end="\n", file=codecs.open('log.txt', 'a', 'utf-8'))
+        print("Success! :",enc_add_result,end="\n", file=codecs.open('log.txt', 'a', 'utf-8'))  #ログをテキストで出力不要な場合はコメントアウト
 
     else:
         print("Failure! :",enc_add_result)
-        print("Failure! :",enc_add_result,end="\n", file=codecs.open('log.txt', 'a', 'utf-8'))
+        print("Failure! :",enc_add_result,end="\n", file=codecs.open('log.txt', 'a', 'utf-8'))  #ログをテキストで出力不要な場合はコメントアウト
 
 print(datetime.datetime.now())
 print(datetime.datetime.now(),end="\n", file=codecs.open('log.txt', 'a', 'utf-8'))
@@ -66,14 +66,14 @@ for i in range(len(rec_list_json["records"])):
             if len(in_progress) != 0:
                 if rec_id in in_progress:
                     print("ProgramID:",rec_id," This ProgramID is already in the encode cue")
-                    print("ProgramID:",rec_id," This ProgramID is already in the encode cue",end="\n", file=codecs.open('log.txt', 'a', 'utf-8'))
+                    print("ProgramID:",rec_id," This ProgramID is already in the encode cue",end="\n", file=codecs.open('log.txt', 'a', 'utf-8'))  #ログをテキストで出力不要な場合はコメントアウト
                 else:
                     print("ProgramID:",rec_id,"VideoID:",vid_id,"is encode-add")
-                    print("ProgramID:",rec_id,"VideoID:",vid_id,"is encode-add",end="\n", file=codecs.open('log.txt', 'a', 'utf-8'))
+                    print("ProgramID:",rec_id,"VideoID:",vid_id,"is encode-add",end="\n", file=codecs.open('log.txt', 'a', 'utf-8'))  #ログをテキストで出力不要な場合はコメントアウト
                     enc(rec_id,vid_id)
             else:
                 print("ProgramID:",rec_id,"VideoID:",vid_id,"is encode-add")
-                print("ProgramID:",rec_id,"VideoID:",vid_id,"is encode-add",end="\n", file=codecs.open('log.txt', 'a', 'utf-8'))
+                print("ProgramID:",rec_id,"VideoID:",vid_id,"is encode-add",end="\n", file=codecs.open('log.txt', 'a', 'utf-8'))  #ログをテキストで出力不要な場合はコメントアウト
                 enc(rec_id,vid_id)
 
         else:
