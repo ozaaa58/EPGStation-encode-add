@@ -13,7 +13,7 @@ import codecs
 # In[70]:
 
 
-server_addr = "http://localhost:8888"
+server_addr = "http://localhost:8888"  #サーバーアドレス
 
 def enc(rec_id,vid_id):
     enc_api_url = server_addr + "/api/encode"
@@ -23,7 +23,7 @@ def enc(rec_id,vid_id):
                   #"directory": "string",
                   "isSaveSameDirectory": False,
                   "mode": "H.264",
-                  "removeOriginal": False}
+                  "removeOriginal": False}  #エンコード設定
 
     enc_api = requests.post(enc_api_url, json=enc_option)
     enc_add_result = enc_api.json()
@@ -38,11 +38,11 @@ def enc(rec_id,vid_id):
 print(datetime.datetime.now())
 print(datetime.datetime.now(),end="\n", file=codecs.open('log.txt', 'a', 'utf-8'))
 
-enc_cue_api = server_addr + "/api/encode?isHalfWidth=true"
+enc_cue_api = server_addr + "/api/encode?isHalfWidth=true"  #エンコードキュー情報を取得
 enc_cue = requests.get(enc_cue_api)
 enc_cue_json = enc_cue.json()
 
-rec_list_api = server_addr + "/api/recorded?isHalfWidth=true&offset=0&limit=30"
+rec_list_api = server_addr + "/api/recorded?isHalfWidth=true&offset=0&limit=30"  #録画済み情報取得。現状は最新30件分を取得
 rec_list = requests.get(rec_list_api)
 rec_list_json = rec_list.json()
 
