@@ -42,7 +42,7 @@ enc_cue_api = server_addr + "/api/encode?isHalfWidth=true"
 enc_cue = requests.get(enc_cue_api)
 enc_cue_json = enc_cue.json()
 
-rec_list_api = server_addr + "/api/recorded?isHalfWidth=true&offset=0&limit=500"
+rec_list_api = server_addr + "/api/recorded?isHalfWidth=true&offset=0&limit=30"
 rec_list = requests.get(rec_list_api)
 rec_list_json = rec_list.json()
 
