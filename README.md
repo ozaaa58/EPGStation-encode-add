@@ -8,7 +8,7 @@ cron等に登録して深夜帯や日中にまとめてエンコードしたい�
 サーバーアドレス・エンコード情報など自分の環境に合わせ書き換えてください。
 
 http://<server_addr>:<port>/api-docs/?url=/api/docs
-上記URLでEPGStarionのAPIが確認できます。
+EPGStarionのAPIが確認できます。各自必要に応じて参照願います。
 
 WebAPIを叩くため”requests”ライブラリが必要です。
 
