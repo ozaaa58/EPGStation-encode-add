@@ -2,9 +2,6 @@
 # coding: utf-8
 
 import requests
-import json
-import datetime
-import codecs
 import yaml
 import logging
 
@@ -12,8 +9,15 @@ import logging
 with open("config.yaml", "r") as yml:
     config: dict = yaml.safe_load(yml)
 
-# サーバーアドレスを取得
-server_addr: str = config["server_addr"]
+# 必要なAPI-URL設定
+server_addr: str = config["server_addr"]  # サーバーアドレスを取得
+enc_cue_api = server_addr + "/api/encode?isHalfWidth=true"
+enc_add_api = server_addr + "/api/encode"
+rec_list_api = (
+    server_addr
+    + "/api/recorded?isHalfWidth=true&offset=0&limit="
+    + str(config["rec_list_limit"])
+)
 
 # エンコードオプションを取得
 enc_option = config["enc_option"]
@@ -25,8 +29,8 @@ if enc_option["directory"] == "None":
 logging.basicConfig(
     level=config["log_level"],
     format="%(asctime)s - %(levelname)s - %(message)s",
-    filename="app.log",
-    filemode="a",  # ログの出力モード ('w': 上書き, 'a': 追記)
+    filename="Enc-Add.log",
+    filemode="a",
 )
 
 # ログ出力インスタンスを作成する。引数にログ出力名称を設定する。
@@ -38,15 +42,13 @@ logger.addHandler(sh)
 
 
 # エンコードキューへ追加する関数
-def enc(rec_id, vid_id, enc_option):
-    enc_api_url = server_addr + "/api/encode"  # エンコードAPI-URLを設定
-
+def enc(rec_id, vid_id):
     # IDを設定
     enc_option.update(recordedId=rec_id, sourceVideoFileId=vid_id)
 
     # APIからエンコードキューに追加
-    enc_api = requests.post(enc_api_url, json=enc_option)
-    enc_add_result = enc_api.json()
+    enc_add = requests.post(enc_add_api, json=enc_option)
+    enc_add_result = enc_add.json()
 
     # 結果の確認
     if "encodeId" in enc_add_result:
@@ -60,16 +62,10 @@ def enc(rec_id, vid_id, enc_option):
 
 
 # エンコードキュー情報を取得
-enc_cue_api = server_addr + "/api/encode?isHalfWidth=true"
 enc_cue = requests.get(enc_cue_api)
 enc_cue_json = enc_cue.json()
 
 # 録画リスト情報を取得
-rec_list_api = (
-    server_addr
-    + "/api/recorded?isHalfWidth=true&offset=0&limit="
-    + str(config["limit"])
-)
 rec_list = requests.get(rec_list_api)
 rec_list_json = rec_list.json()
 
@@ -87,13 +83,16 @@ for i in range(len(rec_list_json["records"])):
     rec_file_info = program_info["videoFiles"]
 
     # videoFilesの要素数で処理を分岐
-    # 要素数が2つ以上の場合はエンコードファイルが存在している可能性が高いため処理しない
+    # 要素数が2つ以上の場合はエンコード済みファイルが存在している可能性が高いため処理しない
     if len(rec_file_info) == 1:
         file_type = rec_file_info[0]["type"]
+
         # FileTypeがTSかどうかを確認
         if file_type == "ts":
             rec_id = program_info["id"]
             vid_id = rec_file_info[0]["id"]
+
+            # エンコードキューに既にプログラムIDがある場合はエンコードしない
             if len(in_progress) != 0:
                 if rec_id in in_progress:
                     logger.info(
@@ -101,10 +100,11 @@ for i in range(len(rec_list_json["records"])):
                     )
                 else:
                     logger.info(f"ProgramID: {rec_id} VideoID: {vid_id} is encode-add")
-                    enc(rec_id, vid_id, enc_option)
+                    enc(rec_id, vid_id)
+
             else:
                 logger.info(f"ProgramID: {rec_id} VideoID: {vid_id} is encode-add")
-                enc(rec_id, vid_id, enc_option)
+                enc(rec_id, vid_id)
 
         else:
             pass
