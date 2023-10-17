@@ -6,7 +6,7 @@ import yaml
 import logging
 
 # configファイルの読み込み
-with open("config.yaml", "r") as yml:
+with open("config.yaml", "r", encoding="utf-8") as yml:
     config: dict = yaml.safe_load(yml)
 
 # 必要なAPI-URL設定
