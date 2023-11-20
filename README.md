@@ -11,3 +11,6 @@ cron 等に登録して深夜帯や日中にまとめてエンコードしたい
 
 WebAPI を叩くため `requests` ライブラリが必要です。  
 `pip install requests` or `conda install requests` でライブラリをインストールしてください。
+Rye を利用している場合は`rye sync --no-dev`で依存パッケージを導入できます。
+
+Docker を利用する場合は適宜 UID 等を環境に合わせ利用してください。
