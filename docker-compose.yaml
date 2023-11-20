@@ -1,0 +1,13 @@
+version: "3.9"
+
+services:
+  epgstation-encode-add:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: run # マルチステージビルドターゲットを指定する
+    image: epgstation-encode-add
+    container_name: epgstation-encode-add
+    volumes:
+      - ./config:/app/config
+      - ./logs:/app/logs

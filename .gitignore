@@ -1,4 +1,4 @@
 EPGStation-encode-add.ipynb
 .vscode/settings.json
-config.yaml
-Enc-Add.log
+logs/Enc-Add.log
+config/config.yaml

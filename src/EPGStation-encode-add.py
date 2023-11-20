@@ -4,9 +4,12 @@
 import requests
 import yaml
 import logging
+from pathlib import Path
 
 # configファイルの読み込み
-with open("config.yaml", "r", encoding="utf-8") as yml:
+parent_path = Path(__file__).parents[1]
+config_path = Path.joinpath(parent_path, "config/config.yaml")
+with open(config_path, "r", encoding="utf-8") as yml:
     config: dict = yaml.safe_load(yml)
 
 # 必要なAPI-URL設定
@@ -26,10 +29,11 @@ if enc_option["directory"] == "None":
     enc_option.pop("directory")
 
 # ログの設定
+logs_path = Path.joinpath(parent_path, "logs/Enc-Add.log")
 logging.basicConfig(
     level=config["log_level"],
     format="%(asctime)s - %(levelname)s - %(message)s",
-    filename="Enc-Add.log",
+    filename=logs_path,
     filemode="a",
 )
 
