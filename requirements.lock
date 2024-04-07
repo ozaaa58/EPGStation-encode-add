@@ -5,11 +5,18 @@
 #   pre: false
 #   features: []
 #   all-features: false
+#   with-sources: false
 
 -e file:.
 certifi==2023.7.22
+    # via requests
 charset-normalizer==3.3.0
+    # via requests
 idna==3.4
+    # via requests
 pyyaml==6.0.1
+    # via epgstation-encode-add
 requests==2.31.0
+    # via epgstation-encode-add
 urllib3==2.0.6
+    # via requests
